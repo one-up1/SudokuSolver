@@ -4,24 +4,26 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SudokuSolver.Logics
 {
     public class Solver
     {
+        private int iterations;
+        private int numbersTried;
+        private int comparisons;
+
+        public void Reset()
+        {
+            iterations = 0;
+            numbersTried = 0;
+            comparisons = 0;
+        }
+
         public int[][] Solve(int[][] sudoku)
         {
-            SolveRecursive(sudoku);
-            return sudoku;
-        }
-
-        public int[][] Create(int[][] sudoku)
-        {
-            return sudoku;
-        }
-
-        private static bool SolveRecursive(int[][] sudoku)
-        {
+            iterations++;
             for (int row = 0; row < sudoku.Length; row++)
             {
                 for (int col = 0; col < sudoku[row].Length; col++)
@@ -33,25 +35,31 @@ namespace SudokuSolver.Logics
                             if (IsValid(sudoku, row, col, val))
                             {
                                 sudoku[row][col] = val;
-                                if (SolveRecursive(sudoku))
-                                {
-                                    return true;
-                                }
-                                else
+                                if (Solve(sudoku) == null)
                                 {
                                     sudoku[row][col] = 0;
                                 }
+                                else
+                                {
+                                    return sudoku;
+                                }
                             }
                         }
-                        return false;
+                        return null;
                     }
                 }
             }
-            return true;
+            return sudoku;
         }
 
-        private static bool IsValid(int[][] sudoku, int row, int col, int val)
+        public int[][] Create(int[][] sudoku)
         {
+            return sudoku;
+        }
+
+        private bool IsValid(int[][] sudoku, int row, int col, int val)
+        {
+            numbersTried++;
             for (int i = 0; i < 9; i++)
             {
                 if (Equals(sudoku[i][col], val))
@@ -72,10 +80,17 @@ namespace SudokuSolver.Logics
             return true;
         }
 
-        private static bool Equals(int i, int val)
+        private bool Equals(int i, int val)
         {
+            comparisons++;
             return i != 0 && i == val;
         }
+
+        public int Iterations { get { return iterations; } }
+
+        public int NumbersTried { get { return numbersTried; } }
+
+        public int Comparisons { get { return comparisons; } }
 
         /*private static bool SolveRecursive(int[][] sudoku)
         {

@@ -2,6 +2,7 @@
 using SudokuSolver.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +14,7 @@ namespace SudokuSolver.Controllers
         private Solver solver = new Solver();
         private SudokuModel sudokuModel = new SudokuModel();
         private IEnumerable<Sudoku> SudokuList = Sudokus.MockData();
-
+        private Stopwatch stopwatch = new Stopwatch();
 
         // GET: Sudoku
         public ActionResult Sudoku()
@@ -35,7 +36,27 @@ namespace SudokuSolver.Controllers
 
         public ActionResult Solve(SudokuModel Model)
         {
-            Model.Cells = solver.Solve(Model.Cells);
+            solver.Reset();
+            stopwatch.Reset();
+
+            stopwatch.Start();
+            int[][] cells = solver.Solve(Model.Cells);
+            stopwatch.Stop();
+
+            TempData["Iterations"] = solver.Iterations;
+            TempData["NumbersTried"] = solver.NumbersTried;
+            TempData["Comparisons"] = solver.Comparisons;
+            TempData["ElapsedMilliseconds"] = stopwatch.ElapsedMilliseconds;
+
+            if (cells == null)
+            {
+                TempData["Message"] = "Invalid board";
+            }
+            else
+            {
+                Model.Cells = cells;
+            }
+
             TempData["sudoku"] = Model;
             return RedirectToAction("Sudoku");
         }

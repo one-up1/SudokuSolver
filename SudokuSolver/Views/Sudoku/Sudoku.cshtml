@@ -40,12 +40,27 @@
 
                 @Html.DropDownListFor(model => model.SudokuId, new SelectList(Model.Sudokus, "SudokuId", "Name", Model.SudokuId), new { @onchange = "SelectionChanged(this.value)" })
 
+                @if (TempData["Iterations"] != null)
+                {
+                    <p>
+                        <div class="alert alert-info">
+                            @if (TempData["Message"] != null)
+                            {
+                                @TempData["Message"]
+                                <br />
+                            }
+                            @TempData["Iterations"] iterations in @TempData["ElapsedMilliseconds"] ms<br />
+                            @TempData["NumbersTried"] numbers tried<br />
+                            @TempData["Comparisons"] comparisons
+                        </div>
+                    </p>
+                }
 
                 @*<select name="sudokuNumbers" onchange="location.href='@Url.Action("CreateSudoku", "Sudoku")'">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>*@
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>*@
 
                 <!--TODO: Deze methode vastmaken aan select-->
                 <!--@Html.ActionLink("Empty Sudoku", "ChangeSudoku")-->
