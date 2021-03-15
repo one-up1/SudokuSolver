@@ -38,6 +38,8 @@
 
                 <div class="clearfix"></div>
 
+                <div>@Html.CheckBoxFor(model => model.X) X-sudoku</div>
+
                 @Html.DropDownListFor(model => model.SudokuId, new SelectList(Model.Sudokus, "SudokuId", "Name", Model.SudokuId), new { @onchange = "SelectionChanged(this.value)" })
 
                 @if (TempData["Iterations"] != null)

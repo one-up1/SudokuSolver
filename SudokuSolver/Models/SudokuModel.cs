@@ -11,5 +11,7 @@ namespace SudokuSolver.Models
 
         public int SudokuId { get; set; }
         public IEnumerable<Sudoku> Sudokus { get; set; }
+
+        public bool X { get; set; }
     }
 }

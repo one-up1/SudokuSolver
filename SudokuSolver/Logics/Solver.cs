@@ -19,7 +19,7 @@ namespace SudokuSolver.Logics
             numbersTried = 0;
         }
 
-        public int[][] Solve(int[][] sudoku)
+        public int[][] Solve(int[][] sudoku, bool x)
         {
             iterations++;
             for (int row = 0; row < sudoku.Length; row++)
@@ -30,10 +30,10 @@ namespace SudokuSolver.Logics
                     {
                         for (int val = 1; val <= 9; val++)
                         {
-                            if (IsValid(sudoku, row, col, val))
+                            if (IsValid(sudoku, row, col, val, x))
                             {
                                 sudoku[row][col] = val;
-                                if (Solve(sudoku) == null)
+                                if (Solve(sudoku, x) == null)
                                 {
                                     sudoku[row][col] = 0;
                                 }
@@ -55,7 +55,7 @@ namespace SudokuSolver.Logics
             return sudoku;
         }
 
-        private bool IsValid(int[][] sudoku, int row, int col, int val)
+        private bool IsValid(int[][] sudoku, int row, int col, int val, bool x)
         {
             numbersTried++;
             for (int i = 0; i < 9; i++)
@@ -73,6 +73,20 @@ namespace SudokuSolver.Logics
                 if (sudoku[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == val)
                 {
                     return false;
+                }
+
+                //X-sudoku
+                if (x)
+                {
+                    if (row == col && sudoku[i][i] == val)
+                    {
+                        return false;
+                    }
+
+                    if (row == 8 - col && sudoku[i][8 - i] == val)
+                    {
+                        return false;
+                    }
                 }
             }
             return true;

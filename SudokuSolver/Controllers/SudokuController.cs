@@ -40,7 +40,7 @@ namespace SudokuSolver.Controllers
             stopwatch.Reset();
 
             stopwatch.Start();
-            int[][] cells = solver.Solve(Model.Cells);
+            int[][] cells = solver.Solve(Model.Cells, Model.X);
             stopwatch.Stop();
 
             TempData["Iterations"] = solver.Iterations;
