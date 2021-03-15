@@ -52,6 +52,18 @@ namespace SudokuSolver.Logics
 
         public int[][] Create(int[][] sudoku)
         {
+            // "Als je uitgaat van een valide oplossing"
+            sudoku = Solve(sudoku, false);
+
+            Random random = new Random();
+            int count = random.Next(1, 10);
+            for (int i = 0; i < count; i++)
+            {
+                // "en daar dan een aantal cellen van leegmaakt"
+                sudoku[random.Next(0, 9)][random.Next(0, 9)] = 0;
+            }
+
+            // "heb je een nieuwe Sudoku-puzzel gemaakt"
             return sudoku;
         }
 
