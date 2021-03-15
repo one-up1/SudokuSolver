@@ -12,13 +12,11 @@ namespace SudokuSolver.Logics
     {
         private int iterations;
         private int numbersTried;
-        private int comparisons;
 
         public void Reset()
         {
             iterations = 0;
             numbersTried = 0;
-            comparisons = 0;
         }
 
         public int[][] Solve(int[][] sudoku)
@@ -62,93 +60,26 @@ namespace SudokuSolver.Logics
             numbersTried++;
             for (int i = 0; i < 9; i++)
             {
-                if (Equals(sudoku[i][col], val))
+                if (sudoku[i][col] == val)
                 {
                     return false;
                 }
 
-                if (Equals(sudoku[row][i], val))
+                if (sudoku[row][i] == val)
                 {
                     return false;
                 }
 
-                if (Equals(sudoku[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3], val))
+                if (sudoku[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == val)
                 {
                     return false;
                 }
             }
             return true;
-        }
-
-        private bool Equals(int i, int val)
-        {
-            comparisons++;
-            return i != 0 && i == val;
         }
 
         public int Iterations { get { return iterations; } }
 
         public int NumbersTried { get { return numbersTried; } }
-
-        public int Comparisons { get { return comparisons; } }
-
-        /*private static bool SolveRecursive(int[][] sudoku)
-        {
-            List<int> numbers = new List<int>();
-            for (int r = 0; r < sudoku.Length; r++)
-            {
-                int[] row = sudoku[r];
-                AddNumbers(numbers, row);
-
-                for (int c = 0; c < row.Length; c++)
-                {
-                    if (row[c] == 0)
-                    {
-                        foreach (int num in numbers)
-                        {
-                            if (!Contains(sudoku, c, num))
-                            {
-                                row[c] = num;
-                                //if (SolveRecursive(sudoku))
-                                //{
-                                    break;
-                                //}
-                                //else
-                                //{
-                                //    row[c] = 0;
-                                //}
-                            }
-                            //return false;
-                        }
-                        numbers.Remove(row[c]);
-                    }
-                }
-            }
-            return true;
-        }
-
-        private static void AddNumbers(List<int> numbers, int[] existing)
-        {
-            numbers.Clear();
-            for (int i = 1; i <= 9; i++)
-            {
-                if (Array.IndexOf(existing, i) == -1)
-                {
-                    numbers.Add(i);
-                }
-            }
-        }
-
-        private static bool Contains(int[][] sudoku, int c, int num)
-        {
-            for (int i = 0; i < sudoku.Length; i++)
-            {
-                if (sudoku[i][c] == num)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }*/
     }
 }

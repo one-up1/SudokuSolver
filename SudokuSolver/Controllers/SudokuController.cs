@@ -45,7 +45,6 @@ namespace SudokuSolver.Controllers
 
             TempData["Iterations"] = solver.Iterations;
             TempData["NumbersTried"] = solver.NumbersTried;
-            TempData["Comparisons"] = solver.Comparisons;
             TempData["ElapsedMilliseconds"] = stopwatch.ElapsedMilliseconds;
 
             if (cells == null)
